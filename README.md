@@ -125,11 +125,49 @@ schema-validation mark.
 
 ---
 
+## Shared cluster for all teams (Confluent Cloud) — recommended
+
+For a cluster every team can reach over the internet with **no server admin and
+no firewall/advertised-listener debugging**, use a managed Kafka cluster. The
+same code works — only `.env` changes (SASL/TLS is enabled automatically when a
+SASL username is set).
+
+**One-time setup (Queue team):**
+
+1. Sign up at [confluent.cloud](https://confluent.cloud) and create a **Basic**
+   cluster (pick a cloud/region close to the team).
+2. Create an **API key** for the cluster (Cluster → API Keys → Create key). Save
+   the **key** and **secret**.
+3. Copy the cluster's **Bootstrap server** (Cluster settings → Endpoints), e.g.
+   `pkc-xxxxx.eu-central-1.aws.confluent.cloud:9092`.
+4. Fill in `.env`:
+   ```bash
+   KAFKA_BROKERS=pkc-xxxxx.eu-central-1.aws.confluent.cloud:9092
+   KAFKA_SASL_MECHANISM=plain
+   KAFKA_SASL_USERNAME=<API_KEY>
+   KAFKA_SASL_PASSWORD=<API_SECRET>
+   KAFKA_REPLICATION_FACTOR=3
+   ```
+5. Create all topics on the managed cluster:
+   ```bash
+   npm install && npm run topics:create
+   ```
+
+**What you hand to the other teams** — bootstrap server + an API key/secret
+(ideally issue a separate key per team so they can be revoked individually) and
+the topic/schema contract in [`schemas/`](schemas).
+
+> `docker-compose` is still used for **local development**; Confluent Cloud is the
+> **shared** cluster the teams connect to. Switching between them is just `.env`.
+
+---
+
 ## Integrating your microservice
 
-Other teams connect to `KAFKA_BROKERS` and use the topic + schema contract.
-Any language with a Kafka client works; the schemas in [`schemas/`](schemas) are
-the source of truth.
+Other teams set their `.env` (`KAFKA_BROKERS`, plus the `KAFKA_SASL_*` vars for
+the shared Confluent Cloud cluster) and use the topic + schema contract. Any
+language with a Kafka client works; the schemas in [`schemas/`](schemas) are the
+source of truth.
 
 **Node.js (reuse this repo's helpers):**
 

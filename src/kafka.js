@@ -11,6 +11,8 @@ const config = require('./config');
 const kafka = new Kafka({
   clientId: config.clientId,
   brokers: config.brokers,
+  ssl: config.ssl,
+  sasl: config.sasl,
   logLevel: logLevel.ERROR,
   retry: {
     initialRetryTime: 300,

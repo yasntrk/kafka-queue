@@ -12,6 +12,12 @@ async function main() {
   const configPath = path.join(__dirname, '..', '..', 'config', 'topics.json');
   const { topics } = JSON.parse(fs.readFileSync(configPath, 'utf8'));
 
+  // Managed clusters enforce their own replication factor (Confluent Cloud = 3).
+  // Set KAFKA_REPLICATION_FACTOR=3 there; leave unset for the local single broker.
+  const rfOverride = process.env.KAFKA_REPLICATION_FACTOR
+    ? Number(process.env.KAFKA_REPLICATION_FACTOR)
+    : null;
+
   const admin = kafka.admin();
   await admin.connect();
 
@@ -27,7 +33,7 @@ async function main() {
         topics: toCreate.map((t) => ({
           topic: t.topic,
           numPartitions: t.partitions || 1,
-          replicationFactor: t.replicationFactor || 1,
+          replicationFactor: rfOverride || t.replicationFactor || 1,
           configEntries: t.config
             ? Object.entries(t.config).map(([name, value]) => ({ name, value: String(value) }))
             : undefined,
@@ -35,7 +41,7 @@ async function main() {
       });
       console.log(`Created ${toCreate.length} topic(s):`);
       for (const t of toCreate) {
-        console.log(`  + ${t.topic}  (partitions=${t.partitions || 1}, RF=${t.replicationFactor || 1})`);
+        console.log(`  + ${t.topic}  (partitions=${t.partitions || 1}, RF=${rfOverride || t.replicationFactor || 1})`);
       }
     }
 
