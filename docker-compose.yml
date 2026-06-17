@@ -41,9 +41,11 @@ services:
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false"
-      KAFKA_LOG_DIRS: /var/lib/kafka/data
-    volumes:
-      - kafka-data:/var/lib/kafka/data
+    # Data lives in the container layer: it survives `restart`/`stop`+`start`
+    # and host reboots, and is wiped by `docker compose down`. That is fine for
+    # this project (topics are recreated with `npm run topics:create`). To make
+    # it durable, add `user: root`, mount a volume at the broker's log dir, and
+    # set KAFKA_LOG_DIRS accordingly.
     healthcheck:
       test: ["CMD-SHELL", "/opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --list >/dev/null 2>&1 || exit 1"]
       interval: 10s
@@ -64,7 +66,3 @@ services:
       KAFKA_CLUSTERS_0_NAME: fish-auction
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
       DYNAMIC_CONFIG_ENABLED: "true"
-
-volumes:
-  kafka-data:
-    driver: local
