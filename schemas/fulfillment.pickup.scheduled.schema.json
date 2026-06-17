@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "fulfillment.pickup.scheduled",
+  "title": "fulfillment.pickup.scheduled",
+  "description": "Pickup or delivery has been arranged for a completed sale. Produced by the Post-Auction & Fulfillment Service (4). For DELIVERY, 'deliverable' reflects whether the address is within the cooperative's delivery range.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["eventId", "sessionId", "basketId", "buyerId", "method", "occurredAt"],
+  "properties": {
+    "eventId": { "type": "string", "format": "uuid" },
+    "sessionId": { "type": "string", "minLength": 1 },
+    "basketId": { "type": "string", "minLength": 1 },
+    "buyerId": { "type": "string", "minLength": 1 },
+    "method": { "type": "string", "enum": ["PICKUP", "DELIVERY"] },
+    "deliveryAddress": { "type": "string" },
+    "deliverable": { "type": "boolean" },
+    "occurredAt": { "type": "string", "format": "date-time" }
+  }
+}

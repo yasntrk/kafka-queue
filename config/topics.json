@@ -1,0 +1,22 @@
+{
+  "_comment": "Topic catalog for the Fish Auction System. One topic per event type. replicationFactor is 1 because the demo runs a single broker; raise it (and add brokers) for production. partitions > 1 is used on high-throughput bid topics so consumers can scale out while ordering is preserved per sessionId (the message key).",
+  "topics": [
+    { "topic": "user.member.registered",                 "partitions": 1, "replicationFactor": 1 },
+    { "topic": "user.buyer.registered",                   "partitions": 1, "replicationFactor": 1 },
+    { "topic": "catalog.basket.created",                  "partitions": 1, "replicationFactor": 1 },
+    { "topic": "catalog.published",                       "partitions": 1, "replicationFactor": 1 },
+    { "topic": "auction.session.started",                 "partitions": 1, "replicationFactor": 1 },
+    { "topic": "auction.basket.opened",                   "partitions": 3, "replicationFactor": 1 },
+    { "topic": "bid.placed",                              "partitions": 3, "replicationFactor": 1 },
+    { "topic": "bid.basket.sold",                         "partitions": 3, "replicationFactor": 1 },
+    { "topic": "bid.basket.unsold",                       "partitions": 3, "replicationFactor": 1 },
+    { "topic": "bid.rebid.round.opened",                  "partitions": 1, "replicationFactor": 1 },
+    { "topic": "bid.all.baskets.finalized",               "partitions": 1, "replicationFactor": 1 },
+    { "topic": "bid.payment.confirmed",                   "partitions": 3, "replicationFactor": 1 },
+    { "topic": "bid.basket.sale.completed",               "partitions": 3, "replicationFactor": 1 },
+    { "topic": "fulfillment.pickup.scheduled",            "partitions": 1, "replicationFactor": 1 },
+    { "topic": "fulfillment.captain.payment.calculated",  "partitions": 1, "replicationFactor": 1 },
+    { "topic": "auction.closed",                          "partitions": 1, "replicationFactor": 1 },
+    { "topic": "notification.sent",                       "partitions": 1, "replicationFactor": 1 }
+  ]
+}

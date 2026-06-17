@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "bid.basket.sale.completed",
+  "title": "bid.basket.sale.completed",
+  "description": "A sale is fully completed: the basket was sold AND payment was confirmed. Produced by the Post-Auction & Fulfillment Service (4).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["eventId", "sessionId", "basketId", "buyerId", "salePrice", "paymentConfirmed", "occurredAt"],
+  "properties": {
+    "eventId": { "type": "string", "format": "uuid" },
+    "sessionId": { "type": "string", "minLength": 1 },
+    "basketId": { "type": "string", "minLength": 1 },
+    "buyerId": { "type": "string", "minLength": 1 },
+    "salePrice": { "type": "number", "exclusiveMinimum": 0 },
+    "paymentConfirmed": { "type": "boolean", "const": true },
+    "occurredAt": { "type": "string", "format": "date-time" }
+  }
+}

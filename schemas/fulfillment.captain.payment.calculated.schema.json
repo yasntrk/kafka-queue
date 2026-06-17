@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "fulfillment.captain.payment.calculated",
+  "title": "fulfillment.captain.payment.calculated",
+  "description": "The amount to be paid to a captain (boat owner) has been calculated, excluding tax and with no commission. Produced by the Post-Auction & Fulfillment Service (4); consumed by the Notification Service (5) for the captain payment report.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["eventId", "sessionId", "boatName", "soldBasketCount", "totalAmount", "occurredAt"],
+  "properties": {
+    "eventId": { "type": "string", "format": "uuid" },
+    "sessionId": { "type": "string", "minLength": 1 },
+    "boatName": { "type": "string", "minLength": 1 },
+    "memberId": { "type": "string" },
+    "soldBasketCount": { "type": "integer", "minimum": 0 },
+    "totalAmount": { "type": "number", "minimum": 0 },
+    "occurredAt": { "type": "string", "format": "date-time" }
+  }
+}

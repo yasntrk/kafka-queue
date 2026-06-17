@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "user.member.registered",
+  "title": "user.member.registered",
+  "description": "A cooperative member (boat owner / captain) has been registered. Produced by the User & Membership Service (1).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["eventId", "memberId", "memberName", "boatName", "occurredAt"],
+  "properties": {
+    "eventId": { "type": "string", "format": "uuid" },
+    "memberId": { "type": "string", "minLength": 1 },
+    "memberName": { "type": "string", "minLength": 1 },
+    "boatName": { "type": "string", "minLength": 1 },
+    "email": { "type": "string", "format": "email" },
+    "occurredAt": { "type": "string", "format": "date-time" }
+  }
+}

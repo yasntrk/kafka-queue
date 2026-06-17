@@ -1,0 +1,30 @@
+{
+  "name": "fish-auction-queue",
+  "version": "1.0.0",
+  "description": "Kafka messaging backbone (Queue component / Microservice 0) for the Balıklıova Fish Auction System",
+  "type": "commonjs",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "topics:create": "node --env-file-if-exists=.env src/admin/create-topics.js",
+    "topics:list": "node --env-file-if-exists=.env src/admin/list-topics.js",
+    "demo:produce": "node --env-file-if-exists=.env src/demo/produce-demo.js",
+    "demo:consume": "node --env-file-if-exists=.env src/demo/consume-demo.js",
+    "validate:schemas": "node src/admin/validate-schemas.js"
+  },
+  "keywords": [
+    "kafka",
+    "microservices",
+    "event-driven",
+    "fish-auction",
+    "seds520"
+  ],
+  "author": "Yasin Toprak",
+  "license": "MIT",
+  "dependencies": {
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1",
+    "kafkajs": "^2.2.4"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "notification.sent",
+  "title": "notification.sent",
+  "description": "A notification (registration, auction start, winning buyer, pickup/delivery info, captain report) has been sent. Produced by the Notification Service (5) as an audit record.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["eventId", "channel", "recipient", "occurredAt"],
+  "properties": {
+    "eventId": { "type": "string", "format": "uuid" },
+    "channel": { "type": "string", "enum": ["EMAIL", "SMS", "PUSH"] },
+    "recipient": { "type": "string", "minLength": 1 },
+    "subject": { "type": "string" },
+    "refEventId": { "type": "string", "format": "uuid" },
+    "occurredAt": { "type": "string", "format": "date-time" }
+  }
+}

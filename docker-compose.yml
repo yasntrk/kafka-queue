@@ -1,0 +1,70 @@
+# ===========================================================================
+# Fish Auction System - Queue component (Microservice 0)
+# Single-node Apache Kafka (KRaft mode, no ZooKeeper) + Kafka UI.
+#
+# Quick start:
+#   cp .env.example .env        # set KAFKA_ADVERTISED_HOST (localhost or EC2 IP)
+#   docker compose up -d
+#   npm install && npm run topics:create
+#
+# Ports exposed to the host / network:
+#   29092  -> Kafka bootstrap for external clients (other microservices)
+#   8080   -> Kafka UI (web dashboard)
+# ===========================================================================
+
+services:
+  kafka:
+    image: apache/kafka:3.9.0
+    container_name: fish-auction-kafka
+    restart: unless-stopped
+    ports:
+      # EXTERNAL listener - this is what your Node clients / other services use.
+      - "29092:29092"
+    environment:
+      # --- KRaft (combined broker + controller, single node) ---
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@localhost:9093
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+
+      # --- Listeners ---
+      # INTERNAL : used inside the docker network (e.g. Kafka UI -> kafka:9092)
+      # EXTERNAL : used by clients outside docker, advertised on the host/EC2 IP
+      KAFKA_LISTENERS: CONTROLLER://0.0.0.0:9093,INTERNAL://0.0.0.0:9092,EXTERNAL://0.0.0.0:29092
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka:9092,EXTERNAL://${KAFKA_ADVERTISED_HOST:-localhost}:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+
+      # --- Single-node safe defaults ---
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false"
+      KAFKA_LOG_DIRS: /var/lib/kafka/data
+    volumes:
+      - kafka-data:/var/lib/kafka/data
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --list >/dev/null 2>&1 || exit 1"]
+      interval: 10s
+      timeout: 10s
+      retries: 12
+      start_period: 20s
+
+  kafka-ui:
+    image: ghcr.io/kafbat/kafka-ui:latest
+    container_name: fish-auction-kafka-ui
+    restart: unless-stopped
+    depends_on:
+      kafka:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    environment:
+      KAFKA_CLUSTERS_0_NAME: fish-auction
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
+      DYNAMIC_CONFIG_ENABLED: "true"
+
+volumes:
+  kafka-data:
+    driver: local
