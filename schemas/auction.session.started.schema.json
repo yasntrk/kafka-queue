@@ -7,6 +7,7 @@
   "additionalProperties": false,
   "required": ["eventId", "sessionId", "startTime", "totalBaskets", "occurredAt"],
   "properties": {
+    "eventName": { "type": "string", "description": "Optional self-describing event type; equals the topic name. Not required." },
     "eventId": { "type": "string", "format": "uuid" },
     "sessionId": { "type": "string", "minLength": 1 },
     "startTime": { "type": "string", "format": "date-time" },

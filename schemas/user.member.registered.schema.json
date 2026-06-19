@@ -7,6 +7,7 @@
   "additionalProperties": false,
   "required": ["eventId", "memberId", "memberName", "boatName", "occurredAt"],
   "properties": {
+    "eventName": { "type": "string", "description": "Optional self-describing event type; equals the topic name. Not required." },
     "eventId": { "type": "string", "format": "uuid" },
     "memberId": { "type": "string", "minLength": 1 },
     "memberName": { "type": "string", "minLength": 1 },
