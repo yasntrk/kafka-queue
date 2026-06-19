@@ -20,14 +20,14 @@ const sessionId = `session-${now().slice(0, 10)}-${randomUUID().slice(0, 8)}`;
 
 // --- Reference data (from the assignment's Table 1) ---
 const captains = [
-  { memberId: 'mem-001', memberName: 'Gürkan', boatName: 'Gürkan Kaptan' },
-  { memberId: 'mem-002', memberName: 'Akın', boatName: 'Akın Kaptan' },
-  { memberId: 'mem-003', memberName: 'Mehmet', boatName: 'Mehmet Kaptan' },
+  { memberId: 'mem-001', memberName: 'Gürkan', boatName: 'Gürkan Kaptan', phone: '+90 555 000 0001' },
+  { memberId: 'mem-002', memberName: 'Akın', boatName: 'Akın Kaptan', phone: '+90 555 000 0002' },
+  { memberId: 'mem-003', memberName: 'Mehmet', boatName: 'Mehmet Kaptan', phone: '+90 555 000 0003' },
 ];
 
 const buyers = [
-  { buyerId: 'buy-001', name: 'Ayşe Yılmaz', email: 'ayse@example.com' },
-  { buyerId: 'buy-002', name: 'Deniz Restaurant', email: 'satinalma@deniz.com' },
+  { buyerId: 'buy-001', name: 'Ayşe Yılmaz', email: 'ayse@example.com', phone: '+90 555 111 1111', address: 'Çeşme, İzmir' },
+  { buyerId: 'buy-002', name: 'Deniz Restaurant', email: 'satinalma@deniz.com', phone: '+90 555 222 2222', address: 'Urla, İzmir' },
 ];
 
 const baskets = [

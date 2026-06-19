@@ -12,6 +12,7 @@
     "memberName": { "type": "string", "minLength": 1 },
     "boatName": { "type": "string", "minLength": 1 },
     "email": { "type": "string", "format": "email" },
+    "phone": { "type": "string" },
     "occurredAt": { "type": "string", "format": "date-time" }
   }
 }

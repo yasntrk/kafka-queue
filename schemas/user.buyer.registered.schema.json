@@ -11,6 +11,8 @@
     "buyerId": { "type": "string", "minLength": 1 },
     "name": { "type": "string", "minLength": 1 },
     "email": { "type": "string", "format": "email" },
+    "phone": { "type": "string" },
+    "address": { "type": "string" },
     "occurredAt": { "type": "string", "format": "date-time" }
   }
 }
