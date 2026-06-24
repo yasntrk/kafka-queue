@@ -14,8 +14,12 @@
     { "topic": "bid.all.baskets.finalized",               "partitions": 1, "replicationFactor": 1 },
     { "topic": "bid.payment.confirmed",                   "partitions": 3, "replicationFactor": 1 },
     { "topic": "bid.basket.sale.completed",               "partitions": 3, "replicationFactor": 1 },
+    { "topic": "fulfillment.sale.recorded",               "partitions": 1, "replicationFactor": 1 },
     { "topic": "fulfillment.pickup.scheduled",            "partitions": 1, "replicationFactor": 1 },
+    { "topic": "fulfillment.delivery.checked",            "partitions": 1, "replicationFactor": 1 },
+    { "topic": "fulfillment.basket.completed",            "partitions": 1, "replicationFactor": 1 },
     { "topic": "fulfillment.captain.payment.calculated",  "partitions": 1, "replicationFactor": 1 },
+    { "topic": "fulfillment.auction.closed",              "partitions": 1, "replicationFactor": 1 },
     { "topic": "auction.closed",                          "partitions": 1, "replicationFactor": 1 },
     { "topic": "notification.sent",                       "partitions": 1, "replicationFactor": 1 }
   ]
